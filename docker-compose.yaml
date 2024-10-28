@@ -1,0 +1,27 @@
+services:
+  bankdb:
+    image: mongo:8.0.1
+    container_name: bankdb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=bankadmin
+      - MONGO_INITDB_ROOT_PASSWORD=bankpassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./database/data/db:/data/db
+    networks:
+      - bank-network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: unless-stopped
+networks:
+  bank-network:
+    driver: bridge
