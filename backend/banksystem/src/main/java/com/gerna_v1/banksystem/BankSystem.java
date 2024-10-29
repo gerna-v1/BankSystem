@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BanksystemApplication {
+public class BankSystem {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BanksystemApplication.class, args);
+		SpringApplication.run(BankSystem.class, args);
 	}
 
 }
