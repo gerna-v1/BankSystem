@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdminRepository extends MongoRepository<AdminEntity, String> {
-    AdminEntity saveAdmin(AdminEntity adminEntity);
-    boolean adminExists(String email);
+    boolean existsByEmail(String email);
 }

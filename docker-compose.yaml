@@ -9,6 +9,7 @@ services:
       - "27017:27017"
     volumes:
       - ./database/data/db:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     networks:
       - bank-network
     healthcheck:
@@ -19,7 +20,7 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "15m"
+        max-size: "512m"
         max-file: "3"
     restart: unless-stopped
 
@@ -38,7 +39,7 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "10m"
+        max-size: "25m"
         max-file: "3"
     restart: unless-stopped
 

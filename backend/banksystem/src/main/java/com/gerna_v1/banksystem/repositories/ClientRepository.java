@@ -11,6 +11,5 @@ public interface ClientRepository extends MongoRepository<ClientEntity, String> 
     List<ClientEntity> findByName(String name);
     List<ClientEntity> findByEmail(String email);
     List<ClientEntity> findByBalanceGreaterThan(double balance);
-    List<ClientEntity> listAll();
-    ClientEntity saveClient(ClientEntity clientEntity);
+    List<ClientEntity> findAll();
 }
