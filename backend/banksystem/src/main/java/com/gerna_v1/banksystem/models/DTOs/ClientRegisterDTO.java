@@ -1,8 +1,10 @@
 package com.gerna_v1.banksystem.models.DTOs;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class ClientRegisterDTO {
     private String name;
     private String lastName;

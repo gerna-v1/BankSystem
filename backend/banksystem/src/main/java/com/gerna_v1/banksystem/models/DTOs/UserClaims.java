@@ -6,12 +6,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClientDTO {
-    private String name;
-    private String lastName;
+public class UserClaims {
     private String username;
     private String email;
     private String id;
-    private double balance;
+    private int accessLevel;
 }
-
