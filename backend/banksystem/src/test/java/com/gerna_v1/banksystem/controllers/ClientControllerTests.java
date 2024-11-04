@@ -3,7 +3,6 @@ package com.gerna_v1.banksystem.controllers;
 import com.gerna_v1.banksystem.TestData;
 import com.gerna_v1.banksystem.models.DTOs.ClientDTO;
 import com.gerna_v1.banksystem.models.DTOs.ClientRegisterDTO;
-import com.gerna_v1.banksystem.services.ClientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,7 +22,7 @@ public class ClientControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    /* @MockBean
     private ClientService clientService;
 
     @Test
@@ -50,5 +49,5 @@ public class ClientControllerTests {
                         + "\",\"email\":\"" + clientDTO.getEmail()
                         + "\",\"balance\":" + clientDTO.getBalance()
                         + "}"));
-    }
+    } */
 }

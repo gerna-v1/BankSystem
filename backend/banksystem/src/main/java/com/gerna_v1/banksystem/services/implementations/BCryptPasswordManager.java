@@ -2,10 +2,13 @@ package com.gerna_v1.banksystem.services.implementations;
 
 import com.gerna_v1.banksystem.models.entities.PasswordEntity;
 import com.gerna_v1.banksystem.services.PasswordManager;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@NoArgsConstructor
 public class BCryptPasswordManager implements PasswordManager {
 
     @Override
@@ -30,5 +33,10 @@ public class BCryptPasswordManager implements PasswordManager {
     @Override
     public String generateSalt() {
         return BCrypt.gensalt();
+    }
+
+    @Override
+    public boolean matches(String password, String hashedPassword) {
+        return BCrypt.checkpw(password, hashedPassword);
     }
 }

@@ -5,7 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document(collection = "clients")
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @AllArgsConstructor

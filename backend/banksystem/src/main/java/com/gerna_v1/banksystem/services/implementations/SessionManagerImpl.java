@@ -21,11 +21,13 @@ public class SessionManagerImpl implements SessionManager {
         SessionEntity session = new SessionEntity();
         session.setUuid(uuid);
         session.setToken(token);
+        System.out.println("Session created: " + session.getUuid() + " " + session.getToken());
         sessionRepository.save(session);
     }
 
     @Override
     public void deleteSession(String uuid) {
+        System.out.println("Session deleted: " + uuid);
         sessionRepository.deleteById(uuid);
     }
 

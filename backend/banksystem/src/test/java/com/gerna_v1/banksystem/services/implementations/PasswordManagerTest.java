@@ -1,7 +1,6 @@
 package com.gerna_v1.banksystem.services.implementations;
 
 import com.gerna_v1.banksystem.models.entities.PasswordEntity;
-import com.gerna_v1.banksystem.services.PasswordManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class PasswordManagerTest {
 
-    private PasswordManager passwordManager;
+    private BCryptPasswordManager passwordManager;
 
     @Autowired
-    public void setPasswordManager(PasswordManager passwordManager) {
+    public void setPasswordManager(BCryptPasswordManager passwordManager) {
         this.passwordManager = passwordManager;
     }
 

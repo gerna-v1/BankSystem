@@ -14,6 +14,5 @@ public interface AdminRepository extends MongoRepository<AdminEntity, String> {
     Optional<AdminEntity> findByUsername(String username);
     Optional<AdminEntity> findByEmail(String email);
     List<AdminEntity> getAdminEntitiesByAccessLevel(int accessLevel);
-    List<AdminEntity> findByName(String name);
     List<AdminEntity> findAll();
 }

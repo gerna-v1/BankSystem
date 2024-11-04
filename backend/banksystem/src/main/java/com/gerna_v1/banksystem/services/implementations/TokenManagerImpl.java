@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -47,6 +48,12 @@ public class TokenManagerImpl implements TokenManager {
     }
 
     @Override
+    public boolean validateToken(String token, UserDetails userDetails) {
+        String username = getUsernameFromToken(token);
+        return username.equals(userDetails.getUsername()) && validateToken(token);
+    }
+
+    @Override
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
         return claims.getSubject();
@@ -62,5 +69,16 @@ public class TokenManagerImpl implements TokenManager {
     public String getRoleFromToken(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
         return claims.get("role", String.class);
+    }
+
+    @Override
+    public int getAccessLevelFromToken(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+        return claims.get("accessLevel", Integer.class);
+    }
+
+    @Override
+    public long getExpirationTime() {
+        return EXPIRATION_TIME;
     }
 }

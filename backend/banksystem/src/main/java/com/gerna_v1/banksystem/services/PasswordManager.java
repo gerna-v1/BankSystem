@@ -8,5 +8,6 @@ public interface PasswordManager {
     String hashPassword(String password, String salt);
     PasswordEntity passwordToEntity(String hashedPassword, String salt);
     boolean checkPassword(String password, String hashedPassword, String salt);
+    boolean matches(String password, String hashedPassword);
     String generateSalt();
 }

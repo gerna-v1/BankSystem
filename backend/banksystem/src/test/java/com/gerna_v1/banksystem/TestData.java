@@ -1,9 +1,6 @@
 package com.gerna_v1.banksystem;
 
-import com.gerna_v1.banksystem.models.DTOs.AdminDTO;
-import com.gerna_v1.banksystem.models.DTOs.AdminRegisterDTO;
-import com.gerna_v1.banksystem.models.DTOs.ClientDTO;
-import com.gerna_v1.banksystem.models.DTOs.ClientRegisterDTO;
+import com.gerna_v1.banksystem.models.DTOs.*;
 import com.gerna_v1.banksystem.models.entities.AdminEntity;
 import com.gerna_v1.banksystem.models.entities.ClientEntity;
 import com.gerna_v1.banksystem.models.entities.PasswordEntity;
@@ -88,5 +85,9 @@ public final class TestData {
                 .hash("hashedPassword123")
                 .salt("salt123")
                 .build();
+    }
+
+    public static LoginRequest testLoginRequest() {
+        return new LoginRequest("pepe", "password123");
     }
 }
