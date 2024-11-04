@@ -13,7 +13,7 @@ public class AdminEntity extends UserEntity{
     private Integer accessLevel;
 
     @Builder
-    public AdminEntity(String name, String lastName, String username, String email, PasswordEntity password, String id, Long uuid, Integer accessLevel) {
+    public AdminEntity(String name, String lastName, String username, String email, PasswordEntity password, String id, String uuid, Integer accessLevel) {
         super(name, lastName, username, email, password, id, uuid);
         this.accessLevel = accessLevel;
     }

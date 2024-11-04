@@ -5,7 +5,8 @@ import com.gerna_v1.banksystem.models.DTOs.AdminRegisterDTO;
 import com.gerna_v1.banksystem.models.DTOs.LoginRequest;
 
 public interface AuthService {
-    String login(LoginRequest loginRequest);
+    String loginClient(LoginRequest loginRequest);
+    String loginAdmin(LoginRequest loginRequest);
     String registerClient(ClientRegisterDTO clientRegisterDTO);
     String registerAdmin(AdminRegisterDTO adminRegisterDTO);
 }

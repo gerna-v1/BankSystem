@@ -16,7 +16,7 @@ public class ClientEntity extends UserEntity{
     private String govId;
 
     @Builder
-    public ClientEntity(String name, String lastName, String username, String email, PasswordEntity password, String id, Long uuid, double balance, String phone, String govId) {
+    public ClientEntity(String name, String lastName, String username, String email, PasswordEntity password, String id, String uuid, double balance, String phone, String govId) {
         super(name, lastName, username, email, password, id, uuid);
         this.balance = balance;
         this.phone = phone;

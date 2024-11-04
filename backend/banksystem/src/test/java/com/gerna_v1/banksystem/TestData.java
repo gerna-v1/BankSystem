@@ -1,8 +1,10 @@
 package com.gerna_v1.banksystem;
 
+import com.gerna_v1.banksystem.models.DTOs.AdminDTO;
 import com.gerna_v1.banksystem.models.DTOs.AdminRegisterDTO;
 import com.gerna_v1.banksystem.models.DTOs.ClientDTO;
 import com.gerna_v1.banksystem.models.DTOs.ClientRegisterDTO;
+import com.gerna_v1.banksystem.models.entities.AdminEntity;
 import com.gerna_v1.banksystem.models.entities.ClientEntity;
 import com.gerna_v1.banksystem.models.entities.PasswordEntity;
 
@@ -11,7 +13,7 @@ public final class TestData {
         // Private constructor to prevent instantiation
     }
 
-    public static ClientDTO testClient() {
+    public static ClientDTO testClientDTO() {
         return ClientDTO.builder()
                 .id("1234567")
                 .name("John")
@@ -56,6 +58,27 @@ public final class TestData {
                 .username("janedoe")
                 .email("jane.doe@example.com")
                 .password("password123")
+                .accessLevel(1)
+                .build();
+    }
+
+    public static AdminEntity testAdminEntity() {
+        return AdminEntity.builder()
+                .id("7654321")
+                .name("Jane")
+                .lastName("Doe")
+                .username("janedoe")
+                .email("jane.doe@example.com")
+                .password(testPasswordEntity())
+                .accessLevel(1)
+                .build();
+    }
+
+    public static AdminDTO testAdminDTO() {
+        return AdminDTO.builder()
+                .id("7654321")
+                .username("janedoe")
+                .email("jane.doe@example.com")
                 .accessLevel(1)
                 .build();
     }

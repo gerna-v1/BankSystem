@@ -14,5 +14,5 @@ public abstract class UserEntity {
     private PasswordEntity password;
     @Id
     private String id;
-    private Long uuid;
+    private String uuid;
 }

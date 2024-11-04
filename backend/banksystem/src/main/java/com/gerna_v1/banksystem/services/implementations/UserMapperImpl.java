@@ -1,5 +1,6 @@
 package com.gerna_v1.banksystem.services.implementations;
 
+import com.gerna_v1.banksystem.models.DTOs.AdminDTO;
 import com.gerna_v1.banksystem.models.DTOs.AdminRegisterDTO;
 import com.gerna_v1.banksystem.models.DTOs.ClientRegisterDTO;
 import com.gerna_v1.banksystem.models.DTOs.ClientDTO;
@@ -9,6 +10,7 @@ import com.gerna_v1.banksystem.services.UserMapper;
 import com.gerna_v1.banksystem.services.PasswordManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -64,6 +66,15 @@ public class UserMapperImpl implements UserMapper {
                 .email(clientEntity.getEmail())
                 .id(clientEntity.getId())
                 .balance(clientEntity.getBalance())
+                .build();
+    }
+
+    @Override
+    public AdminDTO adminEntityToAdminDTO(AdminEntity adminEntity) {
+        return AdminDTO.builder()
+                .username(adminEntity.getUsername())
+                .email(adminEntity.getEmail())
+                .id(adminEntity.getId())
                 .build();
     }
 }

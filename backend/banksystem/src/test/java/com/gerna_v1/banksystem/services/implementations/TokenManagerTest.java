@@ -22,20 +22,20 @@ public class TokenManagerTest {
 
     @BeforeEach
     void setUp() {
-        String username = TestData.testClient().getUsername();
-        String email = TestData.testClient().getEmail();
+        String username = TestData.testClientDTO().getUsername();
+        String email = TestData.testClientDTO().getEmail();
         String role = "ROLE_USER";
-        String id = TestData.testClient().getId();
+        String id = TestData.testClientDTO().getId();
         int accessLevel = 1;
         token = tokenManagerService.generateToken(username, email, role, id, accessLevel);
     }
 
     @Test
     void testGenerateToken() {
-        String username = TestData.testClient().getUsername();
-        String email = TestData.testClient().getEmail();
+        String username = TestData.testClientDTO().getUsername();
+        String email = TestData.testClientDTO().getEmail();
         String role = "ROLE_USER";
-        String id = TestData.testClient().getId();
+        String id = TestData.testClientDTO().getId();
         int accessLevel = 1;
         String generatedToken = tokenManagerService.generateToken(username, email, role, id, accessLevel);
 
@@ -52,7 +52,7 @@ public class TokenManagerTest {
 
     @Test
     void testGetUsernameFromToken() {
-        String username = TestData.testClient().getUsername();
+        String username = TestData.testClientDTO().getUsername();
         String extractedUsername = tokenManagerService.getUsernameFromToken(token);
 
         assertEquals(username, extractedUsername);
@@ -60,7 +60,7 @@ public class TokenManagerTest {
 
     @Test
     void testGetEmailFromToken() {
-        String email = TestData.testClient().getEmail();
+        String email = TestData.testClientDTO().getEmail();
         String extractedEmail = tokenManagerService.getEmailFromToken(token);
 
         assertEquals(email, extractedEmail);

@@ -5,7 +5,6 @@ import com.gerna_v1.banksystem.models.DTOs.ClientDTO;
 import com.gerna_v1.banksystem.models.DTOs.ClientRegisterDTO;
 import com.gerna_v1.banksystem.services.ClientService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,9 +26,9 @@ public class ClientControllerTests {
     @MockBean
     private ClientService clientService;
 
-
+    @Test
     public void testCreateClient() throws Exception {
-        ClientDTO clientDTO = TestData.testClient();
+        ClientDTO clientDTO = TestData.testClientDTO();
         ClientRegisterDTO clientRegisterDTO = TestData.testClientRegister();
 
         when(clientService.createClient(any(ClientRegisterDTO.class))).thenReturn(clientDTO);
