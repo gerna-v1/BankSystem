@@ -1,40 +1,64 @@
 package com.gerna_v1.banksystem.config;
 
-import com.gerna_v1.banksystem.services.implementations.AdminUserDetailsService;
-import com.gerna_v1.banksystem.services.implementations.ClientUserDetailsService;
-import com.gerna_v1.banksystem.services.PasswordManager;
-import com.gerna_v1.banksystem.services.UUIDGenerator;
+import com.gerna_v1.banksystem.models.entities.AdminEntity;
+import com.gerna_v1.banksystem.models.entities.ClientEntity;
+import com.gerna_v1.banksystem.models.entities.UserEntity;
+import com.gerna_v1.banksystem.repositories.AdminRepository;
+import com.gerna_v1.banksystem.repositories.ClientRepository;
 import com.gerna_v1.banksystem.services.implementations.BCryptPasswordManager;
-import com.gerna_v1.banksystem.services.implementations.UUIDGeneratorImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
 
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
 
-    private final AdminUserDetailsService adminUserDetailsService;
-    private final ClientUserDetailsService clientUserDetailsService;
-    private final PasswordManager passwordManager;
+    private final ClientRepository clientRepository;
+    private final AdminRepository adminRepository;
 
     @Bean
-    public PasswordManager passwordManager() {
-        return new BCryptPasswordManager();
+    public UserDetailsService userDetailsService() {
+        return username -> {
+            Optional<ClientEntity> clientEntity = clientRepository.findByUsername(username);
+
+            if (clientEntity.isPresent()) {
+                return org.springframework.security.core.userdetails.User.builder()
+                        .username(clientEntity.get().getUsername())
+                        .password(clientEntity.get().getPassword().getHash())
+                        .authorities("CLIENT")
+                        .build();
+            }
+
+            Optional<AdminEntity> adminEntity = adminRepository.findByUsername(username);
+
+            if (adminEntity.isPresent()) {
+                return org.springframework.security.core.userdetails.User.builder()
+                        .username(adminEntity.get().getUsername())
+                        .password(adminEntity.get().getPassword().getHash())
+                        .authorities("ADMIN")
+                        .build();
+            }
+
+            throw new UsernameNotFoundException("User not found");
+        };
     }
 
     @Bean
-    public UUIDGenerator uuidGenerator() {
-        return new UUIDGeneratorImpl();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 
     @Bean
@@ -43,7 +67,7 @@ public class AppConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        return new CustomAuthenticationProvider(adminUserDetailsService, clientUserDetailsService, passwordManager);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordManager();
     }
 }

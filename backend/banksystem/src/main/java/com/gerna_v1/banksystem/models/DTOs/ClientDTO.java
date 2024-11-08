@@ -11,7 +11,7 @@ public class ClientDTO {
     private String lastName;
     private String username;
     private String email;
-    private String id;
+    private String govId;
     private double balance;
 }
 

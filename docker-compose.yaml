@@ -2,9 +2,6 @@ services:
   bankdb:
     image: mongo:8.0.1
     container_name: bankdb
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=bankadmin
-      - MONGO_INITDB_ROOT_PASSWORD=bankpassword
     ports:
       - "27017:27017"
     volumes:
@@ -33,15 +30,21 @@ services:
       - bank-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "25m"
-        max-file: "3"
-    restart: unless-stopped
+
+  vite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bankvite
+    ports:
+      - "3000:3000"
+    networks:
+      - bank-network
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+    command: ["npm", "run", "dev"]
 
 networks:
   bank-network:

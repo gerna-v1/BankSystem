@@ -1,8 +1,7 @@
 package com.gerna_v1.banksystem.config;
 
-import com.gerna_v1.banksystem.repositories.SessionRepository;
+import com.gerna_v1.banksystem.repositories.TokenRepository;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -21,7 +20,7 @@ import java.util.Collections;
 @Configuration
 @EnableMongoRepositories(
         basePackages = "com.gerna_v1.banksystem.repositories",
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {SessionRepository.class})
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {TokenRepository.class})
 )
 public class MongoConfig {
 

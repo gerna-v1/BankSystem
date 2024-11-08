@@ -28,7 +28,6 @@ public final class TestData {
                 .username("johndoe")
                 .email("john.doe@example.com")
                 .password("password123")
-                .balance(1000.0)
                 .phone("123-456-7890")
                 .govId("A1B2C3D4")
                 .build();

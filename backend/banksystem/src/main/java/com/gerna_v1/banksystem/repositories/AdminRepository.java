@@ -1,5 +1,6 @@
 package com.gerna_v1.banksystem.repositories;
 
+import com.gerna_v1.banksystem.models.DTOs.AdminDTO;
 import com.gerna_v1.banksystem.models.entities.AdminEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
