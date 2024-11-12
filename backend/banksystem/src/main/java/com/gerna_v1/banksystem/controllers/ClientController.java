@@ -48,6 +48,44 @@ public class ClientController {
         }
     }
 
+    @GetMapping("/worst")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<ClientDTO>> getWorstClientByBalance() {
+        Optional<ClientDTO> worstClient = clientService.findWorstByBalance();
+
+        if (worstClient.isPresent()) {
+            return ResponseEntity.ok(ApiResponse.<ClientDTO>builder()
+                    .success(true)
+                    .data(worstClient.get())
+                    .message("Worst client by balance found")
+                    .build());
+        } else {
+            return ResponseEntity.status(404).body(ApiResponse.<ClientDTO>builder()
+                    .success(false)
+                    .message("Client not found")
+                    .build());
+        }
+    }
+
+    @GetMapping("/best")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<ClientDTO>> getBestClientByBalance() {
+        Optional<ClientDTO> bestClient = clientService.findBestByBalance();
+
+        if (bestClient.isPresent()) {
+            return ResponseEntity.ok(ApiResponse.<ClientDTO>builder()
+                    .success(true)
+                    .data(bestClient.get())
+                    .message("Worst client by balance found")
+                    .build());
+        } else {
+            return ResponseEntity.status(404).body(ApiResponse.<ClientDTO>builder()
+                    .success(false)
+                    .message("Client not found")
+                    .build());
+        }
+    }
+
     @GetMapping("/{username}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<ClientDTO>> getClientByUsername(String username) {

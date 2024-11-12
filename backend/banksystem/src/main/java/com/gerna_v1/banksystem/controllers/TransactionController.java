@@ -2,6 +2,7 @@ package com.gerna_v1.banksystem.controllers;
 
 import com.gerna_v1.banksystem.models.DTOs.ApiResponse;
 import com.gerna_v1.banksystem.models.DTOs.ClientDTO;
+import com.gerna_v1.banksystem.models.DTOs.TransactionRequest;
 import com.gerna_v1.banksystem.models.entities.TransactionEntity;
 import com.gerna_v1.banksystem.services.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ public class TransactionController {
 
     @PostMapping("/deposit")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ApiResponse<ClientDTO>> deposit(@RequestParam String username, @RequestParam double amount) {
-        Optional<ClientDTO> client = transactionService.deposit(username, amount);
+    public ResponseEntity<ApiResponse<ClientDTO>> deposit(@RequestBody TransactionRequest request) {
+        Optional<ClientDTO> client = transactionService.deposit(request);
         return client.map(value -> ResponseEntity.ok(ApiResponse.<ClientDTO>builder()
                         .success(true)
                         .data(value)
@@ -35,8 +36,8 @@ public class TransactionController {
 
     @PostMapping("/withdraw")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ApiResponse<ClientDTO>> withdraw(@RequestParam String username, @RequestParam double amount) {
-        Optional<ClientDTO> client = transactionService.withdraw(username, amount);
+    public ResponseEntity<ApiResponse<ClientDTO>> withdraw(@RequestBody TransactionRequest request) {
+        Optional<ClientDTO> client = transactionService.withdraw(request);
         return client.map(value -> ResponseEntity.ok(ApiResponse.<ClientDTO>builder()
                         .success(true)
                         .data(value)
@@ -49,8 +50,8 @@ public class TransactionController {
 
     @PostMapping("/quickPay")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ApiResponse<ClientDTO>> quickPay(@RequestParam String senderUsername, @RequestParam String receiverPhoneNumber, @RequestParam String receiverGovID, @RequestParam double amount) {
-        Optional<ClientDTO> client = transactionService.quickPay(senderUsername, receiverPhoneNumber, receiverGovID, amount);
+    public ResponseEntity<ApiResponse<ClientDTO>> quickPay(@RequestBody TransactionRequest request) {
+        Optional<ClientDTO> client = transactionService.quickPay(request);
         return client.map(value -> ResponseEntity.ok(ApiResponse.<ClientDTO>builder()
                         .success(true)
                         .data(value)
@@ -63,8 +64,8 @@ public class TransactionController {
 
     @PostMapping("/transfer")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ApiResponse<ClientDTO>> transfer(@RequestParam String senderUsername, @RequestParam String receiverUsername, @RequestParam String receiverGovID, @RequestParam double amount) {
-        Optional<ClientDTO> client = transactionService.transfer(senderUsername, receiverUsername, receiverGovID, amount);
+    public ResponseEntity<ApiResponse<ClientDTO>> transfer(@RequestBody TransactionRequest request) {
+        Optional<ClientDTO> client = transactionService.transfer(request);
         return client.map(value -> ResponseEntity.ok(ApiResponse.<ClientDTO>builder()
                         .success(true)
                         .data(value)

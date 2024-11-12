@@ -20,6 +20,9 @@ public interface ClientRepository extends MongoRepository<ClientEntity, String> 
     Optional<ClientEntity> findByPhoneAndGovId(String phoneNumber, String govID);
     Optional<ClientEntity> findByUsernameAndGovId(String username, String govID);
 
+    Optional<ClientEntity> findTopByOrderByBalance();
+    Optional<ClientEntity> findTopByOrderByBalanceAsc();
+
     List<ClientEntity> findByBalanceGreaterThan(double balance);
     Optional<ClientEntity> findClientEntityByUsername(String username);
     List<ClientEntity> findAll();

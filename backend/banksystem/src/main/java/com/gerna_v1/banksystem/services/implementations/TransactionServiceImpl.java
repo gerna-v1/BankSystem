@@ -1,10 +1,11 @@
 package com.gerna_v1.banksystem.services.implementations;
 
 import com.gerna_v1.banksystem.models.DTOs.ClientDTO;
+import com.gerna_v1.banksystem.models.DTOs.TransactionRequest;
 import com.gerna_v1.banksystem.models.entities.ClientEntity;
 import com.gerna_v1.banksystem.models.entities.TransactionEntity;
-import com.gerna_v1.banksystem.repositories.ClientRepository;
 import com.gerna_v1.banksystem.repositories.TransactionRepository;
+import com.gerna_v1.banksystem.services.ClientService;
 import com.gerna_v1.banksystem.services.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,18 +18,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
     private final TransactionRepository transactionRepository;
 
     @Override
-    public Optional<ClientDTO> deposit(String username, double amount) {
-        Optional<ClientEntity> clientOpt = clientRepository.findByUsername(username);
+    public Optional<ClientDTO> deposit(TransactionRequest request) {
+        Optional<ClientEntity> clientOpt = clientService.findByUsername(request.getSenderUsername());
         if (clientOpt.isPresent()) {
             ClientEntity client = clientOpt.get();
-            client.setBalance(client.getBalance() + amount);
-            clientRepository.save(client);
+            client.setBalance(client.getBalance() + request.getAmount());
+            clientService.save(client);
 
-            logTransaction(client.getUsername(), client.getUsername(), amount, "DEPOSIT");
+            logTransaction(client.getUsername(), client.getUsername(), request.getAmount(), "DEPOSIT");
 
             return Optional.of(convertToDTO(client));
         }
@@ -36,15 +37,15 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Optional<ClientDTO> withdraw(String username, double amount) {
-        Optional<ClientEntity> clientOpt = clientRepository.findByUsername(username);
+    public Optional<ClientDTO> withdraw(TransactionRequest request) {
+        Optional<ClientEntity> clientOpt = clientService.findByUsername(request.getSenderUsername());
         if (clientOpt.isPresent()) {
             ClientEntity client = clientOpt.get();
-            if (client.getBalance() >= amount) {
-                client.setBalance(client.getBalance() - amount);
-                clientRepository.save(client);
+            if (client.getBalance() >= request.getAmount()) {
+                client.setBalance(client.getBalance() - request.getAmount());
+                clientService.save(client);
 
-                logTransaction(client.getUsername(), client.getUsername(), amount, "WITHDRAW");
+                logTransaction(client.getUsername(), client.getUsername(), request.getAmount(), "WITHDRAW");
 
                 return Optional.of(convertToDTO(client));
             }
@@ -53,19 +54,19 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Optional<ClientDTO> quickPay(String senderUsername, String receiverPhoneNumber, String receiverGovID, double amount) {
-        Optional<ClientEntity> senderOpt = clientRepository.findByUsername(senderUsername);
-        Optional<ClientEntity> receiverOpt = clientRepository.findByPhoneAndGovId(receiverPhoneNumber, receiverGovID);
+    public Optional<ClientDTO> quickPay(TransactionRequest request) {
+        Optional<ClientEntity> senderOpt = clientService.findByUsername(request.getSenderUsername());
+        Optional<ClientEntity> receiverOpt = clientService.findByPhoneAndGovId(request.getReceiverIdentifier(), request.getReceiverGovID());
         if (senderOpt.isPresent() && receiverOpt.isPresent()) {
             ClientEntity sender = senderOpt.get();
             ClientEntity receiver = receiverOpt.get();
-            if (sender.getBalance() >= amount) {
-                sender.setBalance(sender.getBalance() - amount);
-                receiver.setBalance(receiver.getBalance() + amount);
-                clientRepository.save(sender);
-                clientRepository.save(receiver);
+            if (sender.getBalance() >= request.getAmount()) {
+                sender.setBalance(sender.getBalance() - request.getAmount());
+                receiver.setBalance(receiver.getBalance() + request.getAmount());
+                clientService.save(sender);
+                clientService.save(receiver);
 
-                logTransaction(sender.getUsername(), receiver.getUsername(), amount, "QUICK_PAY");
+                logTransaction(sender.getUsername(), receiver.getUsername(), request.getAmount(), "QUICK_PAY");
 
                 return Optional.of(convertToDTO(sender));
             }
@@ -74,19 +75,19 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Optional<ClientDTO> transfer(String senderUsername, String receiverUsername, String receiverGovID, double amount) {
-        Optional<ClientEntity> senderOpt = clientRepository.findByUsername(senderUsername);
-        Optional<ClientEntity> receiverOpt = clientRepository.findByUsernameAndGovId(receiverUsername, receiverGovID);
+    public Optional<ClientDTO> transfer(TransactionRequest request) {
+        Optional<ClientEntity> senderOpt = clientService.findByUsername(request.getSenderUsername());
+        Optional<ClientEntity> receiverOpt = clientService.findByUsernameAndGovId(request.getReceiverUsername(), request.getReceiverGovID());
         if (senderOpt.isPresent() && receiverOpt.isPresent()) {
             ClientEntity sender = senderOpt.get();
             ClientEntity receiver = receiverOpt.get();
-            if (sender.getBalance() >= amount) {
-                sender.setBalance(sender.getBalance() - amount);
-                receiver.setBalance(receiver.getBalance() + amount);
-                clientRepository.save(sender);
-                clientRepository.save(receiver);
+            if (sender.getBalance() >= request.getAmount()) {
+                sender.setBalance(sender.getBalance() - request.getAmount());
+                receiver.setBalance(receiver.getBalance() + request.getAmount());
+                clientService.save(sender);
+                clientService.save(receiver);
 
-                logTransaction(sender.getUsername(), receiver.getUsername(), amount, "TRANSFER");
+                logTransaction(sender.getUsername(), receiver.getUsername(), request.getAmount(), "TRANSFER");
 
                 return Optional.of(convertToDTO(sender));
             }

@@ -38,6 +38,38 @@ public class ClientServiceImpl implements ClientService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<ClientDTO> findWorstByBalance() {
+        return clientRepository.findTopByOrderByBalanceAsc()
+                .map(this::convertToDTO);
+    }
+
+    @Override
+    public Optional<ClientDTO> findBestByBalance() {
+        return clientRepository.findTopByOrderByBalance()
+                .map(this::convertToDTO);
+    }
+
+    @Override
+    public Optional<ClientEntity> findByUsername(String username) {
+        return clientRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<ClientEntity> findByPhoneAndGovId(String phoneNumber, String govID) {
+        return clientRepository.findByPhoneAndGovId(phoneNumber, govID);
+    }
+
+    @Override
+    public Optional<ClientEntity> findByUsernameAndGovId(String username, String govID) {
+        return clientRepository.findByUsernameAndGovId(username, govID);
+    }
+
+    @Override
+    public void save(ClientEntity client) {
+        clientRepository.save(client);
+    }
+
     private ClientDTO convertToDTO(ClientEntity entity) {
         return ClientDTO.builder()
                 .name(entity.getName())
