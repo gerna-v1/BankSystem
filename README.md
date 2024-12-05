@@ -64,5 +64,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## TODO
 
 - Create documentation
+- Expand tests
 - Rework build system
 - Deploy this project
