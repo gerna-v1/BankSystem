@@ -33,7 +33,7 @@ services:
 
   vite:
     build:
-      context: .
+      context: ./frontend/bankfrontend/
       dockerfile: Dockerfile
     container_name: bankvite
     ports:
@@ -41,10 +41,10 @@ services:
     networks:
       - bank-network
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     volumes:
-      - .:/app
-    command: ["npm", "run", "dev"]
+      - ./frontend/bankfrontend/dist:/app/dist
+    command: ["serve", "-s", "dist", "-l", "3000"]
 
 networks:
   bank-network:

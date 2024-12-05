@@ -32,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
         return adminRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
-    }
+    }   
 
     private AdminDTO convertToDTO(AdminEntity adminEntity) {
         return AdminDTO.builder()
