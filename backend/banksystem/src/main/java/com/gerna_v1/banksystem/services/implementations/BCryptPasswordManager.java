@@ -1,7 +1,6 @@
 package com.gerna_v1.banksystem.services.implementations;
 
 import com.gerna_v1.banksystem.models.entities.PasswordEntity;
-import com.gerna_v1.banksystem.services.PasswordManager;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;

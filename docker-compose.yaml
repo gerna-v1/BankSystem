@@ -10,7 +10,7 @@ services:
     networks:
       - bank-network
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--norc", "--quiet", "--host=localhost:27017", "--eval", "db.getMongo()"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -20,6 +20,7 @@ services:
         max-size: "512m"
         max-file: "3"
     restart: unless-stopped
+    mem_limit: 1g
 
   redis:
     image: redis:7.0.5
@@ -30,22 +31,50 @@ services:
       - bank-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    mem_limit: 512m
+
+  bankapi:
+    build:
+      context: ./backend/banksystem/
+      dockerfile: Dockerfile
+    container_name: bankapi
+    ports:
+      - "8080:8080"
+    networks:
+      - bank-network
+    depends_on:
+      bankdb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb://bankdb:27017/bankdb
+      - SPRING_DATA_REDIS_HOST=bankredis
+      - SPRING_DATA_REDIS_PORT=6379
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    mem_limit: 4g
 
   vite:
     build:
       context: ./frontend/bankfrontend/
       dockerfile: Dockerfile
-    container_name: bankvite
+    container_name: bankfront
     ports:
       - "3000:3000"
     networks:
       - bank-network
     environment:
       - NODE_ENV=production
-    volumes:
-      - ./frontend/bankfrontend/dist:/app/dist
-    command: ["serve", "-s", "dist", "-l", "3000"]
-
+    command: ["npx", "serve", "-s", "dist", "-l", "3000"]
+    mem_limit: 512m
 networks:
   bank-network:
     driver: bridge

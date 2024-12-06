@@ -24,23 +24,20 @@ import java.util.Collections;
 )
 public class MongoConfig {
 
-    @Value("${spring.data.mongodb.uri}")
+    @Value("${spring.data.mongodb.uri:localhost}")
     private String mongoUri;
 
-    @Value("${spring.data.mongodb.database}")
+    @Value("${spring.data.mongodb.database:bankdb}")
     private String database;
 
     @Bean
     public MongoClient mongoClient() {
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyToClusterSettings(builder -> builder.hosts(Collections.singletonList(new ServerAddress("localhost", 27017))))
-                .build();
-        return MongoClients.create(settings);
+        return MongoClients.create(mongoUri);
     }
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        return new MongoTemplate(mongoClient(), "bankdb");
+        return new MongoTemplate(mongoClient(), database);
     }
 
     private static final Logger logger = LoggerFactory.getLogger(MongoConfig.class);

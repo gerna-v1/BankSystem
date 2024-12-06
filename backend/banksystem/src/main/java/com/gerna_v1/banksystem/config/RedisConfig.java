@@ -1,6 +1,7 @@
 package com.gerna_v1.banksystem.config;
 
 import com.gerna_v1.banksystem.repositories.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,15 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 )
 public class RedisConfig {
 
+    @Value("${spring.data.redis.host}")
+    private String redisHost;
+
+    @Value("${spring.data.redis.port}")
+    private int redisPort;
+
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory();
+        return new LettuceConnectionFactory(redisHost, redisPort);
     }
 
     @Bean

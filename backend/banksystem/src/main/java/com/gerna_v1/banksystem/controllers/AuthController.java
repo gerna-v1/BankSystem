@@ -75,7 +75,7 @@ public class AuthController {
                     .build());
         } catch (Exception e) {
             logger.error("Error logging in client with username: {}", loginRequest.getUsername(), e);
-            return ResponseEntity.badRequest().body(ApiResponse.<TokenResponse>builder()
+            return ResponseEntity.status(401).body(ApiResponse.<TokenResponse>builder()
                     .success(false)
                     .message(e.getMessage())
                     .build());
@@ -95,7 +95,7 @@ public class AuthController {
                     .build());
         } catch (Exception e) {
             logger.error("Error logging in admin with username: {}", loginRequest.getUsername(), e);
-            return ResponseEntity.badRequest().body(ApiResponse.<TokenResponse>builder()
+            return ResponseEntity.status(401).body(ApiResponse.<TokenResponse>builder()
                     .success(false)
                     .message(e.getMessage())
                     .build());
@@ -105,10 +105,11 @@ public class AuthController {
     @DeleteMapping("/logout")
     public ResponseEntity<ApiResponse<String>> logout(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         try {
-            authService.logout(token);
+            String username = authService.logout(token);
+            logger.info("User {} logged out successfully", username);
             return ResponseEntity.ok(ApiResponse.<String>builder()
                     .success(true)
-                    .message("All sessions cleared successfully")
+                    .message("All sessions cleared successfully for user " + username)
                     .build());
         } catch (Exception e) {
             return ResponseEntity.status(401).body(ApiResponse.<String>builder()

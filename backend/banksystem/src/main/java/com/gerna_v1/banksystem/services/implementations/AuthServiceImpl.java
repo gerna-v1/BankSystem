@@ -141,10 +141,11 @@ public class AuthServiceImpl implements AuthService {
         return new TokenResponse(jwtToken, refreshToken);
     }
 
-    public void logout(String token) {
+    public String logout(String token) {
         String jwtToken = token.substring(7); // Remove "Bearer " prefix
         String uuid = jwtService.extractUuid(jwtToken);
         sessionManager.deleteAllSessionsByUserId(uuid);
         SecurityContextHolder.clearContext();
+        return jwtService.extractUsername(jwtToken);
     }
 }

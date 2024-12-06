@@ -20,7 +20,6 @@ function App() {
 
   const handleLoginSuccess = (data) => {
     setNotification({ message: 'Login successful!', type: 'success' });
-    localStorage.setItem('token', data.accessToken);
     setIsLoggedIn(true);
   };
 

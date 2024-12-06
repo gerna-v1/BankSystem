@@ -21,13 +21,15 @@ apiClient.interceptors.request.use(
 
 const loginClient = async (loginRequest) => {
   const response = await apiClient.post('/login/client', loginRequest);
-  localStorage.setItem('token', response.data.data.accessToken);
+  const { accessToken, refreshToken } = response.data.data;
+  localStorage.setItem('token', accessToken);
   return response;
 };
 
 const loginAdmin = async (loginRequest) => {
   const response = await apiClient.post('/login/admin', loginRequest);
-  localStorage.setItem('token', response.data.data.accessToken);
+  const { accessToken, refreshToken } = response.data.data;
+  localStorage.setItem('token', accessToken);
   return response;
 };
 

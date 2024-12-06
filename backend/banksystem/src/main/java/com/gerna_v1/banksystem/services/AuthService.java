@@ -7,5 +7,5 @@ public interface AuthService {
     TokenResponse registerAdmin(AdminRegisterDTO adminRegisterDTO);
     TokenResponse loginClient(LoginRequest loginRequest);
     TokenResponse loginAdmin(LoginRequest loginRequest);
-    void logout(String token);
+    String logout(String token);
 }

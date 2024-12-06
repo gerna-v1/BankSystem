@@ -1,6 +1,7 @@
 package com.gerna_v1.banksystem;
 
 import com.gerna_v1.banksystem.services.SessionManager;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
