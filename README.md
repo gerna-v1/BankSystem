@@ -25,7 +25,7 @@ A step-by-step series of examples that tell you how to get a development environ
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/yourusername/BankSystem.git
+git clone https://github.com/gerna-v1/BankSystem.git
 cd BankSystem
 ```
 
