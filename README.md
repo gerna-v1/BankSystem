@@ -32,7 +32,7 @@ cd BankSystem
 2. Run your terminal at the root of the project:
 
 ```bash
-docker-compose up
+docker-compose up --build -d
 ```
 
 3. After building, open `localhost:3000` in your browser to access the interface.
